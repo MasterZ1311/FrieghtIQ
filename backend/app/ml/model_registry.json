@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "active_model": "FreightForecastingEnsemble",
+  "active_model_type": "freightforecastingensemble",
+  "status": "trained",
+  "is_demo": true,
+  "disclaimer": "[DEMO] Synthetic forecast for demonstration purposes. Not real market data.",
+  "last_trained_at": "2026-09-14T12:27:52.224925",
+  "training_samples": 16560,
+  "champion_metrics": {
+    "mae": 0.577,
+    "rmse": 0.773,
+    "mape_pct": 3.36,
+    "r2": 0.9967
+  },
+  "benchmarks": {
+    "Naive Historical (Lag-1)": {
+      "mae": 0.48,
+      "rmse": 0.705,
+      "mape_pct": 2.3,
+      "r2": 0.9972
+    },
+    "Moving Average (4-Week)": {
+      "mae": 0.675,
+      "rmse": 0.973,
+      "mape_pct": 3.26,
+      "r2": 0.9947
+    },
+    "Random Forest": {
+      "mae": 0.504,
+      "rmse": 0.748,
+      "mape_pct": 2.37,
+      "r2": 0.9969
+    },
+    "Gradient Boosting": {
+      "mae": 0.478,
+      "rmse": 0.679,
+      "mape_pct": 2.38,
+      "r2": 0.9974
+    },
+    "FreightIQ Champion Ensemble": {
+      "mae": 0.577,
+      "rmse": 0.773,
+      "mape_pct": 3.36,
+      "r2": 0.9967
+    }
+  },
+  "features_used": [
+    "origin_enc",
+    "destination_enc",
+    "vessel_class_enc",
+    "commodity_enc",
+    "distance_norm",
+    "canal_transit_flag",
+    "bunker_price_norm",
+    "congestion_index",
+    "vessel_availability",
+    "demand_index",
+    "commodity_index_norm",
+    "lag_rate_1w",
+    "lag_rate_2w",
+    "lag_rate_4w",
+    "lag_rate_12w",
+    "rolling_mean_4w",
+    "rolling_mean_12w",
+    "rolling_std_4w",
+    "sin_annual",
+    "cos_annual",
+    "q4_demand_flag",
+    "q1_demand_flag",
+    "monsoon_flag"
+  ]
+}

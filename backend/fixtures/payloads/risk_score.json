@@ -1,0 +1,8 @@
+{
+  "origin": "Russia",
+  "destination": "Paradip",
+  "vessel_class": "Panamax",
+  "commodity": "Coal",
+  "cargo_mt": 70000,
+  "contract_type": "Spot"
+}

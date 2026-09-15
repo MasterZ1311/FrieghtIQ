@@ -1,0 +1,33 @@
+{
+  "base_origin": "Australia",
+  "base_destination": "Paradip",
+  "base_vessel_class": "Panamax",
+  "base_commodity": "Coal",
+  "base_cargo_mt": 70000,
+  "scenarios": [
+    {
+      "name": "Supramax Alternative",
+      "vessel_class": "Supramax",
+      "origin": "Australia",
+      "destination": "Paradip",
+      "commodity": "Coal",
+      "cargo_mt": 57000
+    },
+    {
+      "name": "Indonesia Short-Haul Route",
+      "vessel_class": "Supramax",
+      "origin": "Indonesia",
+      "destination": "Paradip",
+      "commodity": "Coal",
+      "cargo_mt": 57000
+    },
+    {
+      "name": "Mozambique Direct",
+      "vessel_class": "Panamax",
+      "origin": "Mozambique",
+      "destination": "Paradip",
+      "commodity": "Coal",
+      "cargo_mt": 70000
+    }
+  ]
+}

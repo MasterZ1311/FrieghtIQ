@@ -1,0 +1,11 @@
+{
+  "origin": "Australia",
+  "destination": "Paradip",
+  "vessel_class": "Panamax",
+  "commodity": "Coal",
+  "cargo_mt": 70000,
+  "waiting_days": 5.5,
+  "demurrage_rate_usd_day": 24000.0,
+  "bunker_price_usd_per_mt": 650.0,
+  "slow_steaming_knots": 11.5
+}

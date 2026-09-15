@@ -1,0 +1,42 @@
+{
+  "scenario_id": "SCENARIO_A",
+  "name": "Australia to Paradip — Port Restriction & Rising Market Contract Hedge",
+  "disclaimer": "[DEMO] Synthetic scenario parameters for demonstration purposes.",
+  "parameters": {
+    "origin": "Australia",
+    "destination": "Paradip",
+    "commodity": "Coal",
+    "cargo_mt": 75000,
+    "annual_volume_mt": 500000,
+    "horizon_days": 30,
+    "bunker_price_usd_per_mt": 650.0,
+    "test_vessels": [
+      {
+        "vessel_class": "Capesize",
+        "cargo_mt": 160000,
+        "expected_compatibility": false,
+        "reason": "Capesize draft (18.0m) exceeds Paradip maximum draft (14.5m)"
+      },
+      {
+        "vessel_class": "Panamax",
+        "cargo_mt": 75000,
+        "expected_compatibility": true,
+        "reason": "Panamax draft (14.0m) complies with Paradip draft limit (14.5m)"
+      },
+      {
+        "vessel_class": "Supramax",
+        "cargo_mt": 55000,
+        "expected_compatibility": true,
+        "reason": "Supramax draft (12.8m) complies with Paradip draft limit (14.5m)"
+      }
+    ]
+  },
+  "expected_outcomes": {
+    "infeasible_vessel": "Capesize",
+    "optimal_vessel": "Panamax",
+    "port_congestion_level": "high",
+    "congestion_strategy": "VIRTUAL_ARRIVAL_SLOW_STEAM",
+    "recommended_contract": "Medium-Term",
+    "key_insight": "Capesize is physically blocked by Paradip 14.5m draft. Panamax is optimal. High port waiting time (5.5d) creates demurrage risk mitigated by slow-steaming. Rising rate momentum favors locking Medium-Term COA to secure multi-million dollar savings."
+  }
+}

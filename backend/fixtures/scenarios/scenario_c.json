@@ -1,0 +1,37 @@
+{
+  "scenario_id": "SCENARIO_C",
+  "name": "United States to Visakhapatnam — Long-Haul Suez Transit & Bunker Volatility",
+  "disclaimer": "[DEMO] Synthetic scenario parameters for demonstration purposes.",
+  "parameters": {
+    "origin": "United States",
+    "destination": "Visakhapatnam",
+    "commodity": "Coal",
+    "cargo_mt": 70000,
+    "annual_volume_mt": 500000,
+    "planning_horizon_months": 12,
+    "bunker_price_usd_per_mt": 650.0,
+    "test_vessels": [
+      {
+        "vessel_class": "Panamax",
+        "cargo_mt": 70000,
+        "expected_compatibility": true,
+        "reason": "Panamax fits US East Coast coal berths (Hampton Roads/Baltimore) and Visakhapatnam outer harbour"
+      },
+      {
+        "vessel_class": "Supramax",
+        "cargo_mt": 55000,
+        "expected_compatibility": true,
+        "reason": "Supramax fits all ports but has higher USD/MT on long voyages"
+      }
+    ]
+  },
+  "expected_outcomes": {
+    "optimal_vessel": "Panamax",
+    "canal_transit": "Suez",
+    "canal_dues_usd": 250000,
+    "voyage_distance_nm": 12900,
+    "sea_days": 37.1,
+    "recommended_contract": "Medium-Term",
+    "key_insight": "Extremely long 12,900 NM voyage with $250k Suez canal toll and ~37 sea days. High fuel burn amplifies bunker sensitivity. Medium-Term COA protects against long-haul freight rate volatility, yielding significant predictable savings vs unhedged spot exposure."
+  }
+}

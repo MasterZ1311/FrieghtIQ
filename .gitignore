@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+
+# Database
+*.db
+*.sqlite3
+freightiq.db
+
+# ML Model
+app/ml/trained_model.pkl
+
+# Environment
+.env
+!.env.example
+.env.local
+
+# Logs
+*.log
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+npm-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+
+# IDE
+.vscode/
+.idea/
+*.iml

@@ -1,0 +1,33 @@
+{
+  "scenario_id": "SCENARIO_D",
+  "name": "Mozambique to Gangavaram — Deepwater Terminal Unlocks Capesize Economies of Scale",
+  "disclaimer": "[DEMO] Synthetic scenario parameters for demonstration purposes.",
+  "parameters": {
+    "origin": "Mozambique",
+    "destination": "Gangavaram",
+    "commodity": "Coal",
+    "cargo_mt": 160000,
+    "annual_volume_mt": 800000,
+    "bunker_price_usd_per_mt": 650.0,
+    "test_vessels": [
+      {
+        "vessel_class": "Capesize",
+        "cargo_mt": 160000,
+        "expected_compatibility": true,
+        "reason": "Gangavaram 18.0m deepwater draft accommodates fully laden Capesize up to 200,000 DWT"
+      },
+      {
+        "vessel_class": "Panamax",
+        "cargo_mt": 75000,
+        "expected_compatibility": true,
+        "reason": "Panamax is compatible but requires twice as many voyages for the same volume"
+      }
+    ]
+  },
+  "expected_outcomes": {
+    "optimal_vessel": "Capesize",
+    "port_compatibility": true,
+    "freight_rate_saving_usd_per_mt": 4.50,
+    "key_insight": "Gangavaram's 18.0m deep draft and 35k MT/day mechanized unloading unlocks fully laden Capesize economics. Transporting 160k MT via a single Capesize costs ~$11/MT versus ~$15.50/MT on Panamax or ~$19/MT on Supramax, delivering over $700,000 in direct freight savings per voyage."
+  }
+}

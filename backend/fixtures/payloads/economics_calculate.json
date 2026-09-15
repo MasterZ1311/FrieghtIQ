@@ -1,0 +1,10 @@
+{
+  "origin": "Australia",
+  "destination": "Gangavaram",
+  "vessel_class": "Panamax",
+  "commodity": "Coal",
+  "cargo_mt": 70000,
+  "bunker_price_usd_per_mt": 650.0,
+  "port_days_origin": 2.0,
+  "port_days_dest": 3.0
+}

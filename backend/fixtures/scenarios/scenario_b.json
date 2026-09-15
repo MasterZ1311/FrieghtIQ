@@ -1,0 +1,36 @@
+{
+  "scenario_id": "SCENARIO_B",
+  "name": "Indonesia to Dhamra — Origin Draft Limits & Soft Market Spot Strategy",
+  "disclaimer": "[DEMO] Synthetic scenario parameters for demonstration purposes.",
+  "parameters": {
+    "origin": "Indonesia",
+    "destination": "Dhamra",
+    "commodity": "Coal",
+    "cargo_mt": 55000,
+    "annual_volume_mt": 400000,
+    "horizon_days": 30,
+    "bunker_price_usd_per_mt": 640.0,
+    "test_vessels": [
+      {
+        "vessel_class": "Capesize",
+        "cargo_mt": 150000,
+        "expected_compatibility": false,
+        "reason": "Capesize is completely incompatible with Kalimantan loading draft (12.0m)"
+      },
+      {
+        "vessel_class": "Supramax",
+        "cargo_mt": 55000,
+        "expected_compatibility": true,
+        "reason": "Geared Supramax handles shallow river anchorages at Kalimantan and rapid discharge at Dhamra"
+      }
+    ]
+  },
+  "expected_outcomes": {
+    "infeasible_vessel": "Capesize",
+    "optimal_vessel": "Supramax",
+    "port_congestion_level": "low",
+    "market_signal": "WAIT",
+    "recommended_contract": "Spot",
+    "key_insight": "Indonesian loading drafts block Capesize. Supramax is optimal for river anchorage lightering. In a declining or soft freight environment, the algorithm recommends staying in Spot or short-term charter, avoiding locking in expensive fixed rates."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "origin": "Australia",
+  "destination": "Paradip",
+  "vessel_class": "Panamax",
+  "commodity": "Coal",
+  "cargo_mt": 70000,
+  "horizon_days": 30
+}

@@ -1,0 +1,7 @@
+{
+  "origin": "Australia",
+  "destination": "Visakhapatnam",
+  "commodity": "Coal",
+  "cargo_mt": 70000,
+  "budget_usd_per_mt": 15.0
+}
