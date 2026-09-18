@@ -32,6 +32,9 @@ DESTINATION_ENCODING = {
     "Dhamra": 4,
     "Sagar-Sandheads": 5,
     "Haldia": 6,
+    "Thoothukudi": 7,
+    "Chennai": 8,
+    "Kamarajar": 9,
 }
 
 COMMODITY_ENCODING = {
@@ -43,6 +46,9 @@ COMMODITY_ENCODING = {
 }
 
 ROUTE_DISTANCES = {
+    ("Australia", "Thoothukudi"): 4850,
+    ("Australia", "Chennai"): 5050,
+    ("Australia", "Kamarajar"): 5060,
     ("Australia", "Paradip"): 5100,
     ("Australia", "Visakhapatnam"): 5200,
     ("Australia", "Gangavaram"): 5200,
@@ -50,6 +56,9 @@ ROUTE_DISTANCES = {
     ("Australia", "Dhamra"): 5250,
     ("Australia", "Sagar-Sandheads"): 5350,
     ("Australia", "Haldia"): 5400,
+    ("United States", "Thoothukudi"): 12100,
+    ("United States", "Chennai"): 12300,
+    ("United States", "Kamarajar"): 12310,
     ("United States", "Paradip"): 12800,
     ("United States", "Visakhapatnam"): 12900,
     ("United States", "Gangavaram"): 12900,
@@ -57,6 +66,9 @@ ROUTE_DISTANCES = {
     ("United States", "Dhamra"): 12950,
     ("United States", "Sagar-Sandheads"): 13050,
     ("United States", "Haldia"): 13100,
+    ("Mozambique", "Thoothukudi"): 3400,
+    ("Mozambique", "Chennai"): 3700,
+    ("Mozambique", "Kamarajar"): 3720,
     ("Mozambique", "Paradip"): 4800,
     ("Mozambique", "Visakhapatnam"): 4900,
     ("Mozambique", "Gangavaram"): 4900,
@@ -64,6 +76,9 @@ ROUTE_DISTANCES = {
     ("Mozambique", "Dhamra"): 4950,
     ("Mozambique", "Sagar-Sandheads"): 5050,
     ("Mozambique", "Haldia"): 5100,
+    ("Russia", "Thoothukudi"): 8800,
+    ("Russia", "Chennai"): 9000,
+    ("Russia", "Kamarajar"): 9020,
     ("Russia", "Paradip"): 9200,
     ("Russia", "Visakhapatnam"): 9300,
     ("Russia", "Gangavaram"): 9300,
@@ -71,6 +86,9 @@ ROUTE_DISTANCES = {
     ("Russia", "Dhamra"): 9350,
     ("Russia", "Sagar-Sandheads"): 9450,
     ("Russia", "Haldia"): 9500,
+    ("Indonesia", "Thoothukudi"): 1850,
+    ("Indonesia", "Chennai"): 1650,
+    ("Indonesia", "Kamarajar"): 1660,
     ("Indonesia", "Paradip"): 2900,
     ("Indonesia", "Visakhapatnam"): 3000,
     ("Indonesia", "Gangavaram"): 3000,

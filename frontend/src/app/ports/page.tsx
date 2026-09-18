@@ -26,6 +26,9 @@ import {
   DollarSign,
   Gauge,
 } from 'lucide-react'
+import CongestionHeatmap from '@/components/ui/CongestionHeatmap'
+import TidalCalendar from '@/components/ui/TidalCalendar'
+
 
 const STATUS_ICON: Record<string, string> = { OK: '✓', WARNING: '⚠', FAIL: '✗' }
 const STATUS_BG: Record<string, string> = {
@@ -35,9 +38,9 @@ const STATUS_BG: Record<string, string> = {
 }
 
 export default function PortsPage() {
-  const [port, setPort] = useState('Visakhapatnam')
+  const [port, setPort] = useState('Thoothukudi')
   const [vesselClass, setVesselClass] = useState<VesselClass>('Panamax')
-  const [cargo, setCargo] = useState('70000')
+  const [cargo, setCargo] = useState('74510')
   const [commodity, setCommodity] = useState<Commodity>('Coal')
 
   const [result, setResult] = useState<PortCheckResponse | null>(null)
@@ -379,7 +382,14 @@ export default function PortsPage() {
             </Card>
           )}
 
+          {/* AIS Live Port Congestion & Virtual Arrival Engine */}
+          <CongestionHeatmap />
+
+          {/* INCOIS Semi-Diurnal Tidal Gate Scheduler */}
+          <TidalCalendar />
+
           <Disclaimer text={result?.disclaimer || 'DEMO BENCHMARK DATA: East Coast India Port Specifications.'} />
+
         </div>
       </div>
     </div>

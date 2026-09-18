@@ -8,6 +8,9 @@ from app.routers.contracts import router as contracts_router
 from app.routers.scenarios import router as scenarios_router
 from app.routers.dashboard import router as dashboard_router
 from app.routers.workflow import router as workflow_router
+from app.routers.regime import router as regime_router
+from app.routers.options import router as options_router
+from app.routers.copilot import router as copilot_router
 
 __all__ = [
     "forecast_router",
@@ -20,5 +23,9 @@ __all__ = [
     "scenarios_router",
     "dashboard_router",
     "workflow_router",
+    "regime_router",
+    "options_router",
+    "copilot_router",
 ]
+
 

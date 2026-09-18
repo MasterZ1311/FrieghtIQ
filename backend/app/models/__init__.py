@@ -182,3 +182,12 @@ class HistoricalObservation(Base):
     is_demo = Column(Boolean, default=True, nullable=False)
     data_label = Column(String(100), default="[DEMO] Synthetic Historical Observation", nullable=False)
     created_at = Column(DateTime, server_default=func.now())
+
+
+# ── New Market Intelligence Models (FreightIQ 2.0) ──────────────────────────
+from app.models.market_intelligence import (  # noqa: E402, F401
+    MarketRegime,
+    PortCongestionAIS,
+    TidalWindow,
+    NewsSentiment,
+)

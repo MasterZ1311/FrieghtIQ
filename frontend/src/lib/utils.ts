@@ -156,6 +156,9 @@ export const ORIGINS = [
 ] as const
 
 export const DESTINATIONS = [
+  'Thoothukudi',
+  'Chennai',
+  'Kamarajar',
   'Paradip',
   'Visakhapatnam',
   'Gangavaram',

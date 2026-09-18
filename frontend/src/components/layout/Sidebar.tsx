@@ -13,10 +13,14 @@ import {
   ShieldAlert,
   GitCompare,
   Calculator,
+  Gauge,
+  Bot,
 } from 'lucide-react'
 
 const navItems = [
   { href: '/', label: 'Executive Dashboard', icon: LayoutDashboard, badge: null },
+  { href: '/copilot', label: 'AI Copilot Advisor', icon: Bot, badge: 'Agentic' },
+  { href: '/regime', label: 'Market Regime', icon: Gauge, badge: 'HMM' },
   { href: '/workflow', label: 'End-to-End Decision', icon: CalendarCheck2, badge: 'Flow' },
   { href: '/forecast', label: 'Freight Forecast', icon: TrendingUp, badge: null },
   { href: '/vessels', label: 'Vessel Optimization', icon: Ship, badge: '4-Class' },
@@ -25,6 +29,7 @@ const navItems = [
   { href: '/risk', label: 'Risk & Alerts', icon: ShieldAlert, badge: 'Live Feed' },
   { href: '/scenarios', label: 'Scenario Simulator', icon: GitCompare, badge: 'What-If' },
 ]
+
 
 
 export default function Sidebar() {

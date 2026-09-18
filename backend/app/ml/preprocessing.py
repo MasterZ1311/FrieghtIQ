@@ -38,6 +38,9 @@ DESTINATION_ENCODING: Dict[str, int] = {
     "Dhamra": 4,
     "Sagar-Sandheads": 5,
     "Haldia": 6,
+    "Thoothukudi": 7,
+    "Chennai": 8,
+    "Kamarajar": 9,
 }
 
 COMMODITY_ENCODING: Dict[str, int] = {
@@ -49,6 +52,9 @@ COMMODITY_ENCODING: Dict[str, int] = {
 }
 
 CANAL_TRANSIT_ROUTES = {
+    ("United States", "Thoothukudi"),
+    ("United States", "Chennai"),
+    ("United States", "Kamarajar"),
     ("United States", "Paradip"),
     ("United States", "Visakhapatnam"),
     ("United States", "Gangavaram"),
@@ -56,6 +62,9 @@ CANAL_TRANSIT_ROUTES = {
     ("United States", "Dhamra"),
     ("United States", "Sagar-Sandheads"),
     ("United States", "Haldia"),
+    ("Russia", "Thoothukudi"),
+    ("Russia", "Chennai"),
+    ("Russia", "Kamarajar"),
     ("Russia", "Paradip"),
     ("Russia", "Visakhapatnam"),
     ("Russia", "Gangavaram"),

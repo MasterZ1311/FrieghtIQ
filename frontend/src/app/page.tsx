@@ -47,9 +47,62 @@ import {
   Anchor,
   ShieldAlert,
   GitCompare,
+  Bot,
+  Gauge,
+  Clock,
+  Sparkles,
 } from 'lucide-react'
 
+
 const DASHBOARD_ROUTES = [
+  {
+    origin: 'Australia',
+    destination: 'Thoothukudi',
+    vessel_class: 'Panamax' as VesselClass,
+    commodity: 'Coal',
+    label: 'AUS → Thoothukudi / VOCPA (Panamax Coal)',
+    currentRate: 13.80,
+    predictedRate: 12.95,
+    action: 'WAIT' as MarketEntryAction,
+    savings: 63750,
+    confidence: 89,
+    vessel: 'Panamax' as VesselClass,
+    totalCost: 1028238,
+    contract: '6-Mo COA (Save $63.8k)',
+    riskScore: 31,
+  },
+  {
+    origin: 'Indonesia',
+    destination: 'Chennai',
+    vessel_class: 'Supramax' as VesselClass,
+    commodity: 'Coal',
+    label: 'IDN → Chennai Port (Supramax Pig Iron/Coal)',
+    currentRate: 11.20,
+    predictedRate: 12.40,
+    action: 'CHARTER NOW' as MarketEntryAction,
+    savings: 66000,
+    confidence: 85,
+    vessel: 'Supramax' as VesselClass,
+    totalCost: 648000,
+    contract: 'Spot Prompt Fixture',
+    riskScore: 26,
+  },
+  {
+    origin: 'Australia',
+    destination: 'Kamarajar',
+    vessel_class: 'Panamax' as VesselClass,
+    commodity: 'Coal',
+    label: 'AUS → Kamarajar / Ennore (Panamax Coal)',
+    currentRate: 14.10,
+    predictedRate: 13.20,
+    action: 'WAIT' as MarketEntryAction,
+    savings: 67500,
+    confidence: 87,
+    vessel: 'Panamax' as VesselClass,
+    totalCost: 1057500,
+    contract: 'Indexed 6-Mo COA',
+    riskScore: 32,
+  },
   {
     origin: 'Australia',
     destination: 'Paradip',
@@ -65,22 +118,6 @@ const DASHBOARD_ROUTES = [
     totalCost: 1039500,
     contract: '6-Mo COA (Save $66.5k)',
     riskScore: 34,
-  },
-  {
-    origin: 'Indonesia',
-    destination: 'Visakhapatnam',
-    vessel_class: 'Supramax' as VesselClass,
-    commodity: 'Coal',
-    label: 'IDN → Vizag (Supramax Coal)',
-    currentRate: 11.2,
-    predictedRate: 12.4,
-    action: 'CHARTER NOW' as MarketEntryAction,
-    savings: 66000,
-    confidence: 82,
-    vessel: 'Supramax' as VesselClass,
-    totalCost: 616000,
-    contract: 'Spot Prompt Fixture',
-    riskScore: 28,
   },
   {
     origin: 'Mozambique',
@@ -221,19 +258,81 @@ export default function ExecutiveDashboard() {
       >
         <DataModeBadge isLive={isLiveApi} />
         <Link
+          href="/copilot"
+          className="px-3.5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-purple-600/25"
+        >
+          <Bot size={14} />
+          AI Copilot
+        </Link>
+        <Link
+          href="/regime"
+          className="px-3.5 py-2 bg-gray-900 hover:bg-gray-800 border border-gray-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow"
+        >
+          <Gauge size={14} />
+          HMM Regime
+        </Link>
+        <Link
           href="/cargo-planning"
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow"
+          className="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow"
         >
           <CalendarCheck2 size={14} />
           New Cargo Plan
         </Link>
       </PageHeader>
 
+      {/* ─── MACRO REGIME & REAL OPTIONS INTELLIGENCE BANNER ─── */}
+      <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-gray-900 via-blue-950/40 to-gray-900 border border-blue-600/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-lg">
+        <div className="flex flex-wrap items-center gap-4 text-xs">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-gray-400 font-medium">HMM Market Regime:</span>
+            <Link
+              href="/regime"
+              className="px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:underline"
+            >
+              SEASONAL_LIFT (74% Conf)
+            </Link>
+          </div>
+
+          <div className="h-4 w-px bg-gray-800 hidden sm:block" />
+
+          <div className="flex items-center gap-2">
+            <Clock className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-gray-400 font-medium">Black-Scholes Signal:</span>
+            <span className="font-mono font-bold text-amber-300">
+              WAIT 12d (Option Value: $120,155)
+            </span>
+          </div>
+
+          <div className="h-4 w-px bg-gray-800 hidden sm:block" />
+
+          <div className="flex items-center gap-2">
+            <Anchor className="w-3.5 h-3.5 text-blue-400" />
+            <span className="text-gray-400 font-medium">East Coast AIS Queue:</span>
+            <span className="font-mono font-bold text-white">
+              Paradip (74/100 Congested, 14 ships)
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <Link
+            href="/copilot"
+            className="text-xs text-purple-300 hover:text-white flex items-center gap-1 font-semibold transition bg-purple-950/40 hover:bg-purple-900/60 px-3 py-1.5 rounded-lg border border-purple-500/40"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            Consult Copilot on this Route
+            <ArrowRight className="w-3.5 h-3.5 ml-0.5" />
+          </Link>
+        </div>
+      </div>
+
       {/* Trade Route Selector */}
       <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-1">
         <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap mr-1">
           Active Trade Lane:
         </span>
+
         {DASHBOARD_ROUTES.map((route) => {
           const isSelected = selectedRoute.label === route.label
           const cfg = marketActionConfig(route.action)

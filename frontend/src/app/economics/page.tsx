@@ -6,6 +6,9 @@ import { Card, Loading, ErrorBox, Disclaimer, Select, Input, PageHeader, StatCar
 import type { EconomicsResponse, VesselClass, Commodity } from '@/types'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { Sparkles, DollarSign, TrendingUp } from 'lucide-react'
+import CarbonFootprintCard from '@/components/ui/CarbonFootprintCard'
+
+
 
 export default function EconomicsPage() {
   const [origin, setOrigin] = useState('Australia')
@@ -203,8 +206,12 @@ export default function EconomicsPage() {
                 </div>
                 <Disclaimer text={result.disclaimer} />
               </Card>
+
+              {/* IMO CII Rating & EU ETS Scope 3 Carbon Surcharge */}
+              <CarbonFootprintCard />
             </>
           )}
+
 
           {!result && !loading && (
             <EmptyState

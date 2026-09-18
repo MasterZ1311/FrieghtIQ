@@ -164,7 +164,70 @@ PORTS = [
         "is_demo": True,
         "data_label": "[DEMO] Synthetic Port Profile",
     },
-    # ── DESTINATION PORTS (East Coast India) ──────────────────────────────────
+    # ── DESTINATION PORTS (South & East Coast India) ──────────────────────────
+    {
+        "name": "Thoothukudi",
+        "country": "India",
+        "region": "destination",
+        "max_dwt": 95000,
+        "max_draft_m": 14.2,
+        "max_loa_m": 235.0,
+        "max_beam_m": 36.0,
+        "berths": 14,
+        "tide_restricted": False,
+        "congestion_level": "medium",
+        "avg_turnaround_days": 4.2,
+        "handling_rate_mt_day": 15000,
+        "port_dues_usd_per_call": 19000,
+        "suitable_commodities": ["Coal", "Iron Ore", "Fertilizer", "Grain"],
+        "latitude": 8.753,
+        "longitude": 78.196,
+        "notes": "Premier southern deepwater port & National Green Hydrogen/Bunkering Hub (India Green Fuel Conclave '26). Mechanized coal handling (NCB-I) at 15,000 MT/day norm for Panamax/Supramax bulkers.",
+        "is_demo": True,
+        "data_label": "[DEMO] Synthetic Port Profile",
+    },
+    {
+        "name": "Chennai",
+        "country": "India",
+        "region": "destination",
+        "max_dwt": 150000,
+        "max_draft_m": 15.5,
+        "max_loa_m": 300.0,
+        "max_beam_m": 50.0,
+        "berths": 24,
+        "tide_restricted": False,
+        "congestion_level": "medium",
+        "avg_turnaround_days": 4.8,
+        "handling_rate_mt_day": 25000,
+        "port_dues_usd_per_call": 24000,
+        "suitable_commodities": ["Coal", "Iron Ore", "Fertilizer", "Bauxite"],
+        "latitude": 13.084,
+        "longitude": 80.293,
+        "notes": "Major Southeast Coast multi-cargo gateway. Bharathi Dock takes Baby-Cape/Panamax (15.5m draft); Jawahar Dock handles Supramax pig iron (52.5k MT) & bulk minerals. CJ Darcl coastal corridor link.",
+        "is_demo": True,
+        "data_label": "[DEMO] Synthetic Port Profile",
+    },
+    {
+        "name": "Kamarajar",
+        "country": "India",
+        "region": "destination",
+        "max_dwt": 180000,
+        "max_draft_m": 16.0,
+        "max_loa_m": 310.0,
+        "max_beam_m": 52.0,
+        "berths": 9,
+        "tide_restricted": False,
+        "congestion_level": "low",
+        "avg_turnaround_days": 3.2,
+        "handling_rate_mt_day": 32000,
+        "port_dues_usd_per_call": 22000,
+        "suitable_commodities": ["Coal", "Iron Ore"],
+        "latitude": 13.261,
+        "longitude": 80.334,
+        "notes": "Dedicated corporate deepwater port north of Chennai (Ennore). Accommodates Capesize and Panamax bulkers at coal berths CB1/CB2 for thermal power and southern steel works.",
+        "is_demo": True,
+        "data_label": "[DEMO] Synthetic Port Profile",
+    },
     {
         "name": "Paradip",
         "country": "India",
@@ -387,6 +450,9 @@ VESSELS = [
 
 ROUTE_DISTANCES = {
     # Australia
+    ("Australia", "Thoothukudi"): 4850,
+    ("Australia", "Chennai"): 5050,
+    ("Australia", "Kamarajar"): 5060,
     ("Australia", "Paradip"): 5100,
     ("Australia", "Visakhapatnam"): 5200,
     ("Australia", "Gangavaram"): 5200,
@@ -395,6 +461,9 @@ ROUTE_DISTANCES = {
     ("Australia", "Sagar-Sandheads"): 5350,
     ("Australia", "Haldia"): 5400,
     # United States (via Suez Canal)
+    ("United States", "Thoothukudi"): 12100,
+    ("United States", "Chennai"): 12300,
+    ("United States", "Kamarajar"): 12310,
     ("United States", "Paradip"): 12800,
     ("United States", "Visakhapatnam"): 12900,
     ("United States", "Gangavaram"): 12900,
@@ -403,6 +472,9 @@ ROUTE_DISTANCES = {
     ("United States", "Sagar-Sandheads"): 13050,
     ("United States", "Haldia"): 13100,
     # Mozambique
+    ("Mozambique", "Thoothukudi"): 3400,
+    ("Mozambique", "Chennai"): 3700,
+    ("Mozambique", "Kamarajar"): 3720,
     ("Mozambique", "Paradip"): 4800,
     ("Mozambique", "Visakhapatnam"): 4900,
     ("Mozambique", "Gangavaram"): 4900,
@@ -411,6 +483,9 @@ ROUTE_DISTANCES = {
     ("Mozambique", "Sagar-Sandheads"): 5050,
     ("Mozambique", "Haldia"): 5100,
     # Russia (via Suez Canal)
+    ("Russia", "Thoothukudi"): 8800,
+    ("Russia", "Chennai"): 9000,
+    ("Russia", "Kamarajar"): 9020,
     ("Russia", "Paradip"): 9200,
     ("Russia", "Visakhapatnam"): 9300,
     ("Russia", "Gangavaram"): 9300,
@@ -419,6 +494,9 @@ ROUTE_DISTANCES = {
     ("Russia", "Sagar-Sandheads"): 9450,
     ("Russia", "Haldia"): 9500,
     # Indonesia
+    ("Indonesia", "Thoothukudi"): 1850,
+    ("Indonesia", "Chennai"): 1650,
+    ("Indonesia", "Kamarajar"): 1660,
     ("Indonesia", "Paradip"): 2900,
     ("Indonesia", "Visakhapatnam"): 3000,
     ("Indonesia", "Gangavaram"): 3000,
@@ -460,6 +538,9 @@ BASE_FREIGHT_RATES = {
 
 # Port congestion baseline indices
 PORT_BASE_CONGESTION = {
+    "Thoothukudi": 0.42,
+    "Chennai": 0.46,
+    "Kamarajar": 0.25,
     "Paradip": 0.70,
     "Haldia": 0.75,
     "Sagar-Sandheads": 0.55,
@@ -573,9 +654,20 @@ def generate_freight_history(
 
 
 def generate_all_history() -> list[dict]:
-    """Generate freight history for all 5 origins, all 7 East Coast destinations, and viable vessel classes."""
+    """Generate freight history for all 5 origins, all South/East Coast destinations, and viable vessel classes."""
     origins = ["Australia", "United States", "Mozambique", "Russia", "Indonesia"]
-    destinations = ["Paradip", "Visakhapatnam", "Gangavaram", "Gopalpur", "Dhamra", "Sagar-Sandheads", "Haldia"]
+    destinations = [
+        "Thoothukudi",
+        "Chennai",
+        "Kamarajar",
+        "Paradip",
+        "Visakhapatnam",
+        "Gangavaram",
+        "Gopalpur",
+        "Dhamra",
+        "Sagar-Sandheads",
+        "Haldia",
+    ]
     vessel_classes = ["Handysize", "Supramax", "Panamax", "Capesize"]
     commodities = {
         "Australia": "Coal",
@@ -603,9 +695,20 @@ def generate_all_history() -> list[dict]:
 
 
 def generate_routes() -> list[dict]:
-    """Generate route profiles for all 5 origins to all 7 East Coast destinations."""
+    """Generate route profiles for all 5 origins to all South/East Coast destinations."""
     origins = ["Australia", "United States", "Mozambique", "Russia", "Indonesia"]
-    destinations = ["Paradip", "Visakhapatnam", "Gangavaram", "Gopalpur", "Dhamra", "Sagar-Sandheads", "Haldia"]
+    destinations = [
+        "Thoothukudi",
+        "Chennai",
+        "Kamarajar",
+        "Paradip",
+        "Visakhapatnam",
+        "Gangavaram",
+        "Gopalpur",
+        "Dhamra",
+        "Sagar-Sandheads",
+        "Haldia",
+    ]
     records = []
     for o in origins:
         for d in destinations:
@@ -691,6 +794,9 @@ def generate_port_congestion_history(start_date: date = date(2022, 1, 1), weeks:
     for all 7 East Coast Indian ports.
     """
     ports_config = {
+        "Thoothukudi": {"base_wait": 2.2, "base_vessels": 8, "base_cong": 0.42, "status": "medium"},
+        "Chennai": {"base_wait": 2.8, "base_vessels": 12, "base_cong": 0.46, "status": "medium"},
+        "Kamarajar": {"base_wait": 1.4, "base_vessels": 6, "base_cong": 0.25, "status": "low"},
         "Paradip": {"base_wait": 5.5, "base_vessels": 24, "base_cong": 0.72, "status": "high"},
         "Haldia": {"base_wait": 7.0, "base_vessels": 18, "base_cong": 0.78, "status": "high"},
         "Sagar-Sandheads": {"base_wait": 4.0, "base_vessels": 12, "base_cong": 0.55, "status": "medium"},

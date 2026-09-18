@@ -5,6 +5,8 @@ import { formatUSD, ORIGINS, DESTINATIONS, VESSEL_CLASSES, COMMODITIES, signalCo
 import { Card, Loading, ErrorBox, Disclaimer, Select, Input, PageHeader, StatCard, EmptyState, DemoBadge } from '@/components/ui'
 import type { MarketEntryResponse, VesselClass, Commodity } from '@/types'
 import { Sparkles, DollarSign, Clock, ShieldCheck } from 'lucide-react'
+import OptionValueCard from '@/components/ui/OptionValueCard'
+
 
 export default function MarketEntryPage() {
   const [origin, setOrigin] = useState('Australia')
@@ -152,8 +154,19 @@ export default function MarketEntryPage() {
                   )}
                 </div>
 
+                {/* Real Options Timing Card (Black-Scholes-Merton) */}
+                <OptionValueCard
+                  initialRate={result?.current_rate_usd_per_mt || 28.4}
+                  initialTarget={result?.predicted_rate_usd_per_mt || 26.0}
+                  initialCargoMt={Number(cargo) || 70000}
+                  initialDays={Number(urgency) || 30}
+                  route={`${origin}_${destination}`}
+                />
+
+
                 {/* Alternative Execution Strategies */}
                 <Card title="Alternative Chartering Execution Strategies" subtitle="Trade-off evaluation of alternative procurement postures">
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     {result.alternative_strategies.map((s, i) => (
                       <div key={i} className="p-3.5 bg-gray-950/60 border border-gray-800 rounded-xl space-y-2">

@@ -40,3 +40,33 @@ def check_port(req: PortCheckRequest, db: Session = Depends(get_db)):
 def get_ports(region: Optional[str] = Query(None), db: Session = Depends(get_db)):
     """List all ports, optionally filtered by region (origin/destination)."""
     return {"ports": list_ports(db, region=region)}
+
+
+@router.get("/api/ports/congestion", summary="Get AIS-derived port congestion and anchorage data")
+def port_congestion(
+    port: str = Query("paradip", description="Port name (e.g. paradip, haldia, visakhapatnam)"),
+    db: Session = Depends(get_db),
+):
+    """
+    Returns AIS anchorage count, congestion score (0-100), estimated delays,
+    demurrage risk, and Virtual Arrival speed-reduction bunker savings.
+    """
+    from app.services.ais_service import get_port_congestion, get_all_ports_congestion
+    if port.lower() in ("all", "*"):
+        return {"ports": get_all_ports_congestion(db)}
+    return get_port_congestion(port, db)
+
+
+@router.get("/api/ports/tidal-windows", summary="Get tidal gate entry windows for tide-gated ports")
+def tidal_windows(
+    port: str = Query("haldia", description="Tide-gated port name (haldia, gopalpur, sagar)"),
+    days: int = Query(7, ge=1, le=30, description="Forecast horizon in days"),
+    db: Session = Depends(get_db),
+):
+    """
+    Returns harmonic high water windows, maximum safe draft per window,
+    and compatible vessel classes for draft-constrained Indian ports.
+    """
+    from app.services.tidal_service import get_tidal_windows as _get_tidal
+    return _get_tidal(port=port, days=days, db=db)
+

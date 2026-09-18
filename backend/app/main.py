@@ -26,7 +26,11 @@ from app.routers import (
     scenarios_router,
     dashboard_router,
     workflow_router,
+    regime_router,
+    options_router,
+    copilot_router,
 )
+
 
 
 logging.basicConfig(level=getattr(logging, settings.LOG_LEVEL, "INFO"))
@@ -94,6 +98,10 @@ app.include_router(risk_router)
 app.include_router(contracts_router)
 app.include_router(scenarios_router)
 app.include_router(workflow_router)
+app.include_router(regime_router)
+app.include_router(options_router)
+app.include_router(copilot_router)
+
 
 
 

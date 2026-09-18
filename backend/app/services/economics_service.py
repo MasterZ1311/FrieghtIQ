@@ -72,3 +72,66 @@ def calculate_economics(
         port_days_dest=port_days_dest,
     )
     return result
+
+
+CII_RATE_IMPACT = {"A": 0, "B": 0, "C": 0, "D": -1000, "E": -2000}  # $/day
+EU_ETS_PRICE_EUR = 65.0
+EUR_TO_USD = 1.08
+
+
+def calculate_carbon_adjusted(
+    base_result: Dict[str, Any],
+    vessel_class: str,
+    route_via_suez: bool = False,
+    voyage_days: Optional[float] = None,
+    cargo_mt: float = 70000.0,
+) -> Dict[str, Any]:
+    """
+    Augments standard voyage disbursements with Carbon Intensity Indicator (CII)
+    tiering and EU Emissions Trading System (EU ETS) surcharges.
+    """
+    days = voyage_days or base_result.get("voyage_days", base_result.get("total_voyage_days", 30.0))
+    fuel_mt = base_result.get("bunker_consumption_mt", base_result.get("total_bunker_mt", 1000.0))
+    co2_mt = fuel_mt * 3.17  # IMO standard factor for VLSFO: 3.17 t-CO2/t-fuel
+
+    # Annualized operational carbon intensity estimate
+    cii_score = co2_mt / (cargo_mt * max(days, 1.0) + 1e-9)
+
+    if cii_score > 0.006:
+        rating = "E"
+    elif cii_score > 0.005:
+        rating = "D"
+    elif cii_score > 0.004:
+        rating = "C"
+    elif cii_score > 0.003:
+        rating = "B"
+    else:
+        rating = "A"
+
+    charter_adj = CII_RATE_IMPACT.get(rating, 0) * days
+
+    eu_ets_cost = 0.0
+    if route_via_suez:
+        # ~35% of Mediterranean/Red Sea leg subject to EU ETS scope
+        eu_fraction = 0.35
+        eu_ets_cost = co2_mt * eu_fraction * EU_ETS_PRICE_EUR * EUR_TO_USD
+
+    standard_cost = base_result.get("total_voyage_cost_usd", 2000000.0)
+    carbon_total = standard_cost + eu_ets_cost + charter_adj
+
+    carbon_data = {
+        "co2_emitted_mt": round(co2_mt, 1),
+        "co2_per_cargo_mt_kg": round(co2_mt * 1000.0 / (cargo_mt + 1e-9), 2),
+        "cii_rating": rating,
+        "eu_ets_cost_usd": round(eu_ets_cost, 0),
+        "cii_charter_rate_impact_usd": round(charter_adj, 0),
+        "carbon_surcharge_total_usd": round(eu_ets_cost + charter_adj, 0),
+        "carbon_adjusted_total_usd": round(carbon_total, 0),
+        "carbon_saving_if_slow_steam_usd": round(co2_mt * 0.22 * 650.0 * 0.5, 0),
+    }
+
+    return {
+        **base_result,
+        "carbon_analysis": carbon_data,
+    }
+

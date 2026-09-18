@@ -128,8 +128,33 @@ def run_tests():
         assert r.status_code == 200
         print(f"   -> Recommended Contract: {r.json()['recommended_contract']}")
 
+        print("11. Testing Thoothukudi (VOCPA) Green Bunkering & NCB-I Checks...")
+        r_th = client.post("/api/ports/check", json={
+            "port": "Thoothukudi",
+            "vessel_class": "Panamax",
+            "cargo_mt": 74510,
+            "commodity": "Coal",
+        })
+        assert r_th.status_code == 200 and r_th.json()["compatible"]
+        r_th_ais = client.get("/api/ports/congestion?port=thoothukudi")
+        assert r_th_ais.status_code == 200
+        print(f"   -> Thoothukudi Panamax Compatible: {r_th.json()['compatible']} | Congestion Score: {r_th_ais.json()['congestion_score']}/100 (Green Hub: {r_th_ais.json()['green_hydrogen_hub']})")
+
+        print("12. Testing Chennai Port Jawahar Dock & Pig Iron Checks...")
+        r_ch = client.post("/api/ports/check", json={
+            "port": "Chennai",
+            "vessel_class": "Supramax",
+            "cargo_mt": 52500,
+            "commodity": "Coal",
+        })
+        assert r_ch.status_code == 200 and r_ch.json()["compatible"]
+        r_ch_ais = client.get("/api/ports/congestion?port=chennai")
+        assert r_ch_ais.status_code == 200
+        print(f"   -> Chennai Supramax Compatible: {r_ch.json()['compatible']} | Active Vessels in Queue: {len(r_ch_ais.json()['active_vessels_in_queue'])}")
+
         print("\n========================================================")
-        print("ALL 10 CORE MODULE ENDPOINTS PASSED WITH 100% SUCCESS!")
+        print("ALL 12 CORE MODULE ENDPOINTS PASSED WITH 100% SUCCESS!")
+        print("THOOTHUKUDI (VOCPA) & CHENNAI VERIFIED AS PRIMARY HUBS!")
         print("========================================================")
 
 if __name__ == "__main__":

@@ -224,6 +224,8 @@ class EconomicsRequest(BaseModel):
     port_days_origin: float = Field(default=2.0, ge=0)
     port_days_dest: Optional[float] = Field(default=None, ge=0)
     laycan_start: Optional[date] = None
+    route_via_suez: bool = Field(default=False, description="Whether voyage passes through Suez Canal / EU ETS zone")
+
 
     @model_validator(mode="before")
     @classmethod
