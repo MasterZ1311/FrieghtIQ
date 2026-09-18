@@ -1,0 +1,7 @@
+fixture_id,route_code,origin_port,destination_port,vessel_class,cargo_type,cargo_mt,rate_usd_per_mt,fixture_month,source
+FIX-001,AUS_THOOTHUKUDI_PANAMAX,Newcastle,Thoothukudi,panamax,steam_coal,74510,14.50,2026-09,exim_india_sep11_2026
+FIX-002,IDN_CHENNAI_SUPRAMAX,Samarinda,Chennai,supramax,coal,52500,12.20,2026-09,global_timex_sep18_2026
+FIX-003,AUS_PARADIP_PANAMAX,Port Kembla,Paradip,panamax,coking_coal,68000,13.80,2026-09,exim_india_sep11_2026
+FIX-004,MOZ_GANGAVARAM_CAPESIZE,Nacala,Gangavaram,capesize,thermal_coal,180000,9.50,2026-09,global_timex_sep18_2026
+FIX-005,USA_VIZAG_PANAMAX,Hampton Roads,Visakhapatnam,panamax,met_coal,72000,22.40,2026-09,exim_india_sep11_2026
+FIX-006,IDN_DHAMRA_SUPRAMAX,Banjarmasin,Dhamra,supramax,steam_coal,45000,11.80,2026-09,global_timex_sep18_2026
