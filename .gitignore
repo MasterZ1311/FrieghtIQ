@@ -45,3 +45,7 @@ Thumbs.db
 
 # Scanned pages
 scanned_pages/
+
+# Team Internal Docs & Playbooks
+TEAM_DOCS/
+team_docs/
