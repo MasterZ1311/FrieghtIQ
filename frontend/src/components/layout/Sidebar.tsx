@@ -15,6 +15,8 @@ import {
   Calculator,
   Gauge,
   Bot,
+  Menu,
+  X,
 } from 'lucide-react'
 
 const navItems = [
@@ -35,13 +37,48 @@ const navItems = [
 export default function Sidebar() {
   const pathname = usePathname()
   const [isLive, setIsLive] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
     api.health().then((h) => setIsLive(h.isLive))
   }, [])
 
+  // Close sidebar on route change on mobile
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [pathname])
+
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-gray-950 border-r border-gray-800/80 flex flex-col z-30 select-none">
+    <>
+      {/* Mobile hamburger button */}
+      <button
+        onClick={() => setMobileOpen(true)}
+        className="fixed top-4 left-4 z-50 p-2 rounded-xl bg-gray-900 border border-gray-800 text-gray-300 hover:text-white lg:hidden shadow-md"
+        aria-label="Open navigation"
+      >
+        <Menu size={20} />
+      </button>
+
+      {/* Backdrop overlay on mobile */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/60 lg:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+      <aside
+        className={`fixed left-0 top-0 h-screen w-64 bg-gray-950 border-r border-gray-800/80 flex flex-col z-40 select-none transition-transform duration-300 ${
+          mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        }`}
+      >
+        {/* Mobile close button */}
+        <button
+          onClick={() => setMobileOpen(false)}
+          className="absolute top-4 right-4 p-1.5 rounded-lg bg-gray-800/80 text-gray-400 hover:text-white lg:hidden"
+          aria-label="Close navigation"
+        >
+          <X size={15} />
+        </button>
       {/* Brand Header */}
       <div className="p-5 border-b border-gray-800/80">
         <div className="flex items-center gap-3">
@@ -145,6 +182,7 @@ export default function Sidebar() {
           Paradip · Vizag · Gangavaram · Gopalpur · Dhamra · Haldia
         </p>
       </div>
-    </aside>
+      </aside>
+    </>
   )
 }

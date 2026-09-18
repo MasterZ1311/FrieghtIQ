@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Card } from '@/components/ui'
+import { CiiRing } from './CiiRing'
 import { Leaf, Award, DollarSign, Wind, ShieldCheck } from 'lucide-react'
 
 interface CarbonAnalysis {
@@ -37,21 +38,6 @@ export function CarbonFootprintCard({
 }: CarbonFootprintCardProps) {
   const data = carbonData || DEFAULT_CARBON
 
-  const getCiiBadgeColor = (rating: string) => {
-    switch (rating) {
-      case 'A':
-        return 'bg-emerald-500 text-black border-emerald-400'
-      case 'B':
-        return 'bg-emerald-600 text-white border-emerald-500'
-      case 'C':
-        return 'bg-amber-500 text-black border-amber-400'
-      case 'D':
-        return 'bg-orange-500 text-white border-orange-400'
-      default:
-        return 'bg-rose-600 text-white border-rose-500'
-    }
-  }
-
   return (
     <Card
       title="IMO Carbon Intensity & EU ETS Green Surcharge"
@@ -59,24 +45,25 @@ export function CarbonFootprintCard({
       className={className}
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-        {/* Rating Card */}
-        <div className="bg-gray-950/80 p-4 rounded-xl border border-gray-800 flex items-center justify-between">
-          <div>
+        {/* Rating Card with Animated SVG CiiRing */}
+        <div className="bg-gray-950/80 p-4 rounded-xl border border-gray-800 flex items-center justify-between gap-3">
+          <div className="flex-1">
             <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider block">
               IMO CII Rating Tier
             </span>
-            <span className="text-xs text-gray-400 mt-1 block">
+            <span className="text-xs text-gray-300 font-medium mt-1 block">
               {data.cii_rating === 'A' || data.cii_rating === 'B'
-                ? 'Superior efficiency • Zero rate penalty'
+                ? 'Superior efficiency • Tier 1 compliance'
+                : data.cii_rating === 'C'
+                ? 'Moderate efficiency • Baseline tier'
                 : 'Sub-optimal rating • Surcharge applicable'}
             </span>
+            <span className="text-[11px] text-gray-500 font-mono mt-0.5 block">
+              Grade {data.cii_rating} Annual Rating
+            </span>
           </div>
-          <div
-            className={`w-12 h-12 rounded-xl flex items-center justify-center font-black text-2xl border shadow-lg ${getCiiBadgeColor(
-              data.cii_rating
-            )}`}
-          >
-            {data.cii_rating}
+          <div className="flex-shrink-0">
+            <CiiRing grade={data.cii_rating} size={68} />
           </div>
         </div>
 

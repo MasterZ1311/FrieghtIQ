@@ -483,3 +483,75 @@ export function ProgressBar({ value, max = 100, color = 'bg-blue-500' }: { value
     </div>
   )
 }
+
+// ─── SKELETON LOADING COMPONENTS ─────────────────────────────────────────────
+
+export function SkeletonCard() {
+  return (
+    <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 flex flex-col justify-between animate-pulse">
+      <div className="flex items-start justify-between gap-2 mb-3">
+        <div className="h-2.5 w-24 bg-gray-700 rounded-full" />
+        <div className="h-6 w-6 bg-gray-800 rounded-md" />
+      </div>
+      <div className="my-1.5">
+        <div className="h-7 w-20 bg-gray-700 rounded-md mb-2" />
+        <div className="h-2 w-16 bg-gray-800 rounded-full" />
+      </div>
+      <div className="h-5 w-24 bg-gray-800 rounded-md" />
+    </div>
+  )
+}
+
+export function SkeletonChart({ height = 320 }: { height?: number }) {
+  return (
+    <div
+      className="bg-gray-900 border border-gray-800 rounded-xl p-5 animate-pulse"
+      style={{ height: height + 60 }}
+    >
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <div className="h-3 w-48 bg-gray-700 rounded-full mb-2" />
+          <div className="h-2 w-72 bg-gray-800 rounded-full" />
+        </div>
+        <div className="h-5 w-32 bg-gray-800 rounded-full" />
+      </div>
+      <div className="w-full bg-gray-800/60 rounded-xl" style={{ height }} />
+    </div>
+  )
+}
+
+export function SkeletonList({ rows = 5 }: { rows?: number }) {
+  return (
+    <div className="space-y-3 animate-pulse">
+      {Array.from({ length: rows }).map((_, i) => (
+        <div key={i} className="flex items-center gap-3 p-3 bg-gray-900 border border-gray-800 rounded-xl">
+          <div className="h-8 w-8 bg-gray-700 rounded-lg flex-shrink-0" />
+          <div className="flex-1 space-y-1.5">
+            <div className="h-2.5 bg-gray-700 rounded-full" style={{ width: `${60 + (i % 3) * 15}%` }} />
+            <div className="h-2 bg-gray-800 rounded-full" style={{ width: `${40 + (i % 2) * 20}%` }} />
+          </div>
+          <div className="h-5 w-16 bg-gray-800 rounded-full flex-shrink-0" />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export function SkeletonBanner() {
+  return (
+    <div className="mb-6 p-4 rounded-2xl bg-gray-900/60 border border-gray-800 animate-pulse flex items-center gap-6">
+      <div className="flex items-center gap-3">
+        <div className="w-2.5 h-2.5 rounded-full bg-gray-700" />
+        <div className="h-3 w-32 bg-gray-700 rounded-full" />
+        <div className="h-5 w-40 bg-gray-800 rounded-full" />
+      </div>
+      <div className="h-4 w-px bg-gray-800" />
+      <div className="h-3 w-48 bg-gray-700 rounded-full" />
+      <div className="h-4 w-px bg-gray-800" />
+      <div className="h-3 w-40 bg-gray-700 rounded-full" />
+    </div>
+  )
+}
+
+export { CiiRing } from './CiiRing'
+export type { CiiRingProps } from './CiiRing'
