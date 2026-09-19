@@ -51,6 +51,7 @@
   - [5.2 Software Layered Architecture](#52-software-layered-architecture)
   - [5.3 End-to-End Decision Pipeline Data Flow](#53-end-to-end-decision-pipeline-data-flow)
   - [5.4 Core Mathematical & Economic Formulations](#54-core-mathematical--economic-formulations)
+  - [5.5 Comprehensive Database Schema & Entity-Relationship Diagram (ERD)](#55-comprehensive-database-schema--entity-relationship-diagram-erd)
 - [6. Technology Stack](#6-technology-stack)
 - [7. Repository Directory Layout](#7-repository-directory-layout)
 - [8. New Developer Onboarding Guide](#8-new-developer-onboarding-guide)
@@ -487,6 +488,242 @@ Where:
 - $d_{\text{static}}$: Vessel arrival static draft
 - $s_{\text{squat}}(v)$: Dynamic sinkage draft due to shallow-water hydrodynamic squat at speed $v$
 - $\delta_{\text{swell}}$: Safety allowance for sea-swell pitching and rolling motion
+
+---
+
+### 5.5 Comprehensive Database Schema & Entity-Relationship Diagram (ERD)
+
+FREIGHT IQ implements an enterprise-grade normalized relational schema engineered with **SQLAlchemy 2.0 Async ORM** and backed by **PostgreSQL** (production) or **SQLite** (local zero-config development). The schema is divided into 11 coherent domain modules comprising 35+ tables.
+
+#### 1. Visual Entity-Relationship Diagram (ERD)
+
+```mermaid
+erDiagram
+    PORTS ||--o{ BERTHS : "houses"
+    PORTS ||--o{ PORT_CONSTRAINTS : "binds"
+    BERTHS ||--o{ BERTH_CONSTRAINTS : "enforces"
+    PORTS ||--o{ TIDAL_WINDOWS : "records"
+    PORTS ||--o{ PORT_CONGESTIONS : "monitors"
+    PORTS ||--o{ CARGO_REQUIREMENTS : "origin_for"
+    PORTS ||--o{ CARGO_REQUIREMENTS : "destination_for"
+    PORTS ||--o{ FREIGHT_ROUTES : "origin_of"
+    PORTS ||--o{ FREIGHT_ROUTES : "dest_of"
+
+    VESSELS ||--|| VESSEL_PARTICULARS : "specifies"
+    VESSELS ||--o{ VESSEL_AVAILABILITIES : "disposes"
+    VESSELS ||--o{ VESSEL_EMPLOYMENT_EVENTS : "tracks"
+    VESSELS ||--o{ IDLE_SCENARIOS : "exposes"
+    VESSELS ||--o{ REPOSITIONING_OPTIONS : "evaluates"
+
+    CARGO_REQUIREMENTS ||--o{ VESSEL_MATCH_RUNS : "triggers"
+    VESSEL_MATCH_RUNS ||--o{ VESSEL_MATCH_CANDIDATES : "evaluates"
+    VESSELS ||--o{ VESSEL_MATCH_CANDIDATES : "matched_in"
+    VESSEL_MATCH_CANDIDATES ||--o{ VESSEL_MATCH_RULE_RESULTS : "audits"
+
+    CARGO_REQUIREMENTS ||--o{ CONTRACT_STRATEGIES : "models"
+    CONTRACT_STRATEGIES ||--o{ CONTRACT_STRATEGY_SCENARIOS : "simulates"
+
+    CARGO_REQUIREMENTS ||--o{ WAIT_FIX_ANALYSES : "analyzes"
+    VESSELS ||--o{ WAIT_FIX_ANALYSES : "considered_for"
+    WAIT_FIX_ANALYSES ||--o{ WAIT_FIX_SCENARIOS : "projects"
+
+    FREIGHT_ROUTES ||--o{ FREIGHT_OBSERVATIONS : "logs"
+    FREIGHT_ROUTES ||--o{ FREIGHT_FORECASTS : "projects"
+    FREIGHT_ROUTES ||--o{ MARKET_REGIMES : "classifies"
+
+    CARGO_REQUIREMENTS ||--o{ CHARTERING_DECISIONS : "finalizes"
+    VESSELS ||--o{ CHARTERING_DECISIONS : "chartered_as"
+
+    COPILOT_SESSIONS ||--o{ COPILOT_MESSAGES : "contains"
+    COPILOT_MESSAGES ||--o{ COPILOT_TOOL_CALLS : "invokes"
+    COPILOT_TOOL_CALLS ||--|| COPILOT_TOOL_RESULTS : "yields"
+
+    PORTS {
+        string id PK
+        string unlocode
+        string name
+        string country
+        float latitude
+        float longitude
+        float max_draft
+        float max_loa
+        float max_beam
+        boolean tidal
+    }
+
+    BERTHS {
+        string id PK
+        string port_id FK
+        string name
+        string berth_type
+        float max_loa
+        float max_beam
+        float max_draft
+        float max_air_draft
+        float max_dwt
+        float handling_rate_tpd
+        boolean continuous_ship_unloader
+    }
+
+    VESSELS {
+        string id PK
+        string name
+        string imo_number UK
+        string vessel_class
+        string flag
+        int built_year
+        float dwt
+        float loa
+        float beam
+        float draft
+        float air_draft
+    }
+
+    CARGO_REQUIREMENTS {
+        string id PK
+        string requirement_code UK
+        string cargo_type
+        float quantity_mt
+        float tolerance_pct
+        string origin_port_id FK
+        string destination_port_id FK
+        datetime laycan_start
+        datetime laycan_end
+        string status
+    }
+
+    CONTRACT_STRATEGIES {
+        string id PK
+        string cargo_requirement_id FK
+        string strategy_type
+        float total_mt
+        float contracted_mt
+        float spot_mt
+        float expected_cost_total
+        float risk_adjusted_cost
+        float break_even_rate
+        float flexibility_score
+    }
+
+    WAIT_FIX_ANALYSES {
+        string id PK
+        string cargo_requirement_id FK
+        string vessel_id FK
+        string decision
+        float confidence
+        float current_spot_rate
+        float predicted_future_rate
+        float daily_demurrage_rate
+        float net_benefit_usd
+        float real_option_value_usd
+    }
+
+    CHARTERING_DECISIONS {
+        string id PK
+        string cargo_requirement_id FK
+        string chosen_vessel_id FK
+        string chosen_strategy_id FK
+        datetime decision_date
+        string readiness_status
+        json dossier_json
+        string approved_by
+    }
+```
+
+#### 2. Domain-by-Domain Table Catalog
+
+##### A. Ports & Berths Domain (`app/models/ports.py`)
+- **`ports`**: Master registry of dry-bulk global and domestic ports.
+  - `id` (VARCHAR PK): Unique port slug (e.g., `paradip-in`, `newcastle-au`, `haldia-in`).
+  - `unlocode` (VARCHAR 5): UN/LOCODE standard identifier (e.g., `INPRT`, `AUNCU`).
+  - `name` (VARCHAR), `country` (VARCHAR), `latitude` (FLOAT), `longitude` (FLOAT).
+  - `max_draft` (FLOAT), `max_loa` (FLOAT), `max_beam` (FLOAT): Global port-level physical ceiling bounds.
+  - `tidal` (BOOLEAN): Flags whether port requires tidal window navigation (e.g., Haldia / Hooghly).
+- **`berths`**: Specific mechanized and conventional discharge quays.
+  - `id` (VARCHAR PK), `port_id` (VARCHAR FK $\rightarrow$ `ports.id`).
+  - `name` (VARCHAR): Berth label (e.g., `Berth CB-1`, `Berth CB-2`, `IOBT Terminal`).
+  - `berth_type` (VARCHAR): `MECHANIZED_BULK`, `CONVENTIONAL_DISCHARGE`, `MULTIPURPOSE`.
+  - `max_loa`, `max_beam`, `max_draft`, `max_air_draft`, `max_dwt`: Specific quay geometric constraints.
+  - `handling_rate_tpd` (FLOAT): Rated discharge capacity in Tons Per Day (e.g., 25,000 TPD).
+  - `continuous_ship_unloader` (BOOLEAN): Flags presence of Continuous Ship Unloaders (CSUs) vs. grab cranes.
+- **`port_constraints`** & **`berth_constraints`**: Explicit navigational parameters, minimum tug requirements, night-navigation bans, and deballasting regulations.
+- **`constraint_versions`**: Versioned history of port authority circular updates.
+
+##### B. Vessels & Fleet Domain (`app/models/vessels.py`)
+- **`vessels`**: Master registry of dry-bulk cargo carriers.
+  - `id` (VARCHAR PK), `name` (VARCHAR), `imo_number` (VARCHAR 7 UK), `flag` (VARCHAR).
+  - `vessel_class` (ENUM): `CAPESIZE`, `KAMSARMAX`, `PANAMAX`, `ULTRAMAX`, `SUPRAMAX`, `HANDYSIZE`.
+  - `built_year` (INTEGER), `gross_tonnage` (FLOAT), `dwt` (FLOAT Summer Deadweight MT).
+  - `loa` (FLOAT), `beam` (FLOAT), `draft` (FLOAT Summer Scantling Draft), `air_draft` (FLOAT Ballast Air Draft).
+- **`vessel_particulars`**: Engineering & cargo handling parameters.
+  - `vessel_id` (VARCHAR FK $\rightarrow$ `vessels.id` UNIQUE).
+  - `hatch_count` (INTEGER), `hold_capacity_cbm` (FLOAT).
+  - `crane_count` (INTEGER), `crane_capacity_mt` (FLOAT): Geared vs. Gearless status.
+  - `deballasting_rate_tph` (FLOAT): Ballast pump discharge speed governing fast loading at high-output terminals.
+  - `eco_speed_kts` (FLOAT), `eco_consumption_tpd` (FLOAT): Calibrated baseline fuel burn rates.
+- **`vessel_availabilities`**: Commercial operational positions & promptness telemetry.
+  - `vessel_id` (VARCHAR FK $\rightarrow$ `vessels.id`).
+  - `current_port_id` (VARCHAR FK $\rightarrow$ `ports.id`), `latitude` (FLOAT), `longitude` (FLOAT).
+  - `available_from` (DATETIME), `available_to` (DATETIME): Open window dates for employment.
+  - `daily_hire_rate` (FLOAT USD/day), `status` (ENUM: `AVAILABLE`, `EMPLOYED`, `BALLASTING`).
+
+##### C. Cargo Requisitions Domain (`app/models/cargo.py`)
+- **`cargo_requirements`**: Steel plant raw material procurement demands.
+  - `id` (VARCHAR PK), `requirement_code` (VARCHAR UK, e.g., `CR-2026-001`).
+  - `cargo_type` (ENUM): `COKING_COAL`, `THERMAL_COAL`, `IRON_ORE_FINES`, `LIMESTONE`, `DOLOMITE`.
+  - `quantity_mt` (FLOAT): Total metric tons requested (e.g., 75,000 MT).
+  - `tolerance_pct` (FLOAT): Shipping volume tolerance (typically $\pm 10\%$ More or Less in Owner's Option / MOLOO).
+  - `origin_port_id` (VARCHAR FK $\rightarrow$ `ports.id`), `destination_port_id` (VARCHAR FK $\rightarrow$ `ports.id`).
+  - `laycan_start` (DATETIME), `laycan_end` (DATETIME): Permissible loading commencement and canceling window.
+  - `status` (ENUM): `DRAFT`, `ACTIVE`, `IN_EVALUATION`, `FIXED`, `COMPLETED`, `CANCELLED`.
+
+##### D. Deterministic Feasibility & Matching (`app/models/matching.py`, `optimizer.py`)
+- **`vessel_match_runs`**: Execution log of multi-vessel deterministic screening passes.
+- **`vessel_match_candidates`**: Evaluated candidate bulkers with calculated composite suitability scores:
+  - `match_status` (ENUM): `PASS`, `CONDITIONAL` (tidal or lighterage constraint), `FAIL`, `UNKNOWN`.
+  - `composite_score` (FLOAT 0-100), `ballast_distance_nm` (FLOAT), `eta_laycan_diff_days` (FLOAT).
+- **`vessel_match_rule_results`**: Granular rule-by-rule audit trail (LOA check, Beam check, Draft check, Laycan buffer).
+
+##### E. Freight Market & Forecasting Domain (`app/models/freight.py`, `regime.py`)
+- **`freight_routes`**: Master maritime trade corridors (e.g., `newcastle-au -> paradip-in`).
+- **`freight_observations`**: Historical time-series containing Baltic indices (BDI, BPI, BCI), spot fixtures ($/MT), and VLSFO bunker benchmarks.
+- **`freight_forecasts`**: Multi-horizon predictions generated by Temporal Fusion Transformers:
+  - `target_date` (DATE), `model_type` (`TFT_QUANTILE`, `BASELINE_MA`, `ARIMA`).
+  - `p10_rate` (FLOAT Bearish Floor), `p50_rate` (FLOAT Median Expected), `p90_rate` (FLOAT Bullish Ceiling).
+  - `confidence_score` (FLOAT 0-100).
+- **`market_regimes`**: Continuous Gaussian HMM state classifications:
+  - `regime_type` (ENUM): `BULL`, `BEAR`, `NEUTRAL`, `SEASONAL_SURGE`.
+  - `volatility_annualized` (FLOAT), `persistence_prob` (FLOAT Transition Probability).
+
+##### F. Strategy, Portfolios & Real Options (`app/models/contracts.py`, `wait_fix.py`)
+- **`contract_strategies`**: Multi-voyage portfolio allocations:
+  - `strategy_type` (ENUM): `SPOT`, `SHORT_TERM`, `MEDIUM_TERM`.
+  - `contracted_mt`, `spot_mt`, `expected_cost_total`, `expected_cost_pmt`.
+  - `uncertainty_penalty`, `commitment_penalty`, `risk_adjusted_cost`.
+  - `break_even_rate` ($/MT), `flexibility_score` (0-100%).
+- **`wait_fix_analyses`**: Black-76 postponement valuation runs:
+  - `decision` (ENUM): `FIX_NOW` vs. `WAIT_RECOMMENDED`.
+  - `real_option_value_usd`, `daily_demurrage_rate`, `net_benefit_usd`.
+
+##### G. Fleet Employment & Repositioning (`app/models/idle_repositioning.py`)
+- **`vessel_employment_events`**: 9-state state machine transition audit trail (`EMPLOYED` $\rightarrow$ `AVAILABLE` $\rightarrow$ `IDLE_RISK` $\rightarrow$ `REPOSITIONING`).
+- **`idle_scenarios`**: Calculated exposure metrics (idle days, idle cost, unrecovered OPEX).
+- **`repositioning_options`**: Ballast transit evaluations with `deadhead_risk` scores (`LOW`, `MEDIUM`, `HIGH`).
+
+##### H. Operational Risk & Metocean Intelligence (`app/models/risk.py`)
+- **`port_congestions`**: Pre-berthing queue measurements and average waiting hours per terminal.
+- **`tidal_windows`**: Astronomical high/low water predictions, tide curves, and dynamic Under-Keel Clearance margins.
+- **`weather_observations`**: Beaufort wind force, significant wave heights, swell vectors, and tropical cyclone warnings.
+
+##### I. Voyage Economics & Speed Scenarios (`app/models/economics.py`)
+- **`voyage_economic_analyses`**: Delivered cost breakdown ($/MT) including bunker, port dues, canal fees, and TCE.
+- **`speed_scenarios`**: Speed vs. fuel curve evaluations across Eco (11.5 kts), Normal (13.0 kts), and Full (14.5 kts) profiles.
+
+##### J. AI Copilot & Governance (`app/models/copilot.py`, `integration.py`)
+- **`copilot_sessions`** & **`copilot_messages`**: Conversational session threads.
+- **`copilot_tool_calls`** & **`copilot_tool_results`**: Full telemetry of ReAct tool invocations with verified database record IDs.
+- **`chartering_decisions`**: Persisted final procurement dossiers signed off by authorized chartering officers.
+- **`audit_logs`**: Tamper-evident ledger recording every critical system recommendation, waiver, and user override.
 
 ---
 
