@@ -8,6 +8,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS%20v4-Shadcn%20UI-38B2AC?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
 [![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-Async%20ORM-D71F00?style=for-the-badge&logo=sqlite)](https://www.sqlalchemy.org)
+[![Active Branch](https://img.shields.io/badge/Active%20Branch-⚡%20Dev1%20(Latest)-00E5FF?style=for-the-badge&logo=git&logoColor=white&labelColor=07111F)](#)
+[![Remote](https://img.shields.io/badge/GitHub%20Remote-MasterZ1311%2FFrieghtIQ-10B981?style=for-the-badge&logo=github&logoColor=white&labelColor=07111F)](https://github.com/MasterZ1311/FrieghtIQ.git)
 [![License](https://img.shields.io/badge/Status-Production%20Ready-10B981?style=for-the-badge)](#)
 
 <p align="center">
@@ -1003,11 +1005,40 @@ In adherence with the **Smart India Hackathon 2026** problem boundaries and ente
 
 ## 10. Contribution & Git Workflow
 
-We follow a structured Git branching strategy:
+We follow a structured Git branching strategy optimized for multi-developer collaboration:
 
-1. **Active Development Branch**: `Dev1`
-2. **Main / Release Branch**: `MZ-Main`
-3. **Feature Branches**: `feat/<feature-name>` or `fix/<bug-name>`
+```mermaid
+gitGraph
+    commit id: "Initial commit"
+    commit id: "Base Monorepo"
+    branch Dev1 order: 1
+    checkout Dev1
+    commit id: "feat: shadcn b1Yobvfjk"
+    commit id: "feat: dual-theme system"
+    commit id: "docs: PRD & DB Schema"
+    commit id: "chore: clean workspace"
+    commit id: "release: Dev1 verified"
+```
+
+### Branch Hierarchy & Visual Styling
+
+| Branch | Identity & Badge | Theme Accent | Purpose & Role | Upstream Ref |
+| :--- | :--- | :--- | :--- | :--- |
+| **`Dev1`** | [![Dev1](https://img.shields.io/badge/Dev1-Active%20Workspace-00E5FF?style=for-the-badge&logo=git&logoColor=white&labelColor=07111F)](#) | `#00E5FF` Cyan | **Primary Active Branch**: Contains cutting-edge shadcn/ui frontend, decision intelligence engine, and real-time models | `origin/Dev1` |
+| **`MZ-Main`** | [![MZ-Main](https://img.shields.io/badge/MZ--Main-Production%20Release-10B981?style=for-the-badge&logo=github&logoColor=white&labelColor=07111F)](#) | `#10B981` Emerald | **Stable Production Anchor**: Golden release checkpoint for demonstration days and executive reviews | `origin/MZ-Main` |
+| **`feat/*`** | [![Features](https://img.shields.io/badge/Feature-Isolated%20Modules-F59E0B?style=for-the-badge&logo=gitkraken&logoColor=white&labelColor=07111F)](#) | `#F59E0B` Amber | **Feature Branches**: Targeted feature development branch branched from `Dev1` | PR $\rightarrow$ `Dev1` |
+
+### Terminal Quick Commands:
+```bash
+# View active branches with verbose upstream tracking:
+git br
+
+# View colorful decorated commit tree:
+git tree -n 10
+
+# Quick status check:
+git gs
+```
 
 ### Pull Request Checklist:
 - [ ] Code is formatted and passes `npx tsc --noEmit`.
