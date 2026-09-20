@@ -1,4 +1,12 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1';
+export function getApiBaseUrl(): string {
+  if (typeof window !== 'undefined') {
+    // In browser (desktop or mobile tunnel): use relative URL so Next.js proxy rewrites handle it.
+    // This avoids CORS restrictions, Mixed Content blocking, and loopback resolution issues on mobile.
+    return '/api/v1';
+  }
+  // On server (SSR / Node): use internal backend port or environment variable
+  return process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1';
+}
 
 export class ApiError extends Error {
   constructor(public status: number, message: string, public data?: any) {
@@ -11,7 +19,9 @@ export async function apiClient<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+  const baseUrl = getApiBaseUrl();
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${baseUrl}${cleanEndpoint}`;
   
   const headers = {
     'Content-Type': 'application/json',

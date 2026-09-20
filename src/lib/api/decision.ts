@@ -1,4 +1,4 @@
-import { apiClient } from './client';
+import { apiClient, getApiBaseUrl } from './client';
 
 export type DecisionPipelineState =
   | 'DRAFT'
@@ -380,6 +380,6 @@ export async function getAuditTrail(limit: number = 50): Promise<AuditLogSchema[
 }
 
 export function getReportExportUrl(decisionId: string, format: 'CSV' | 'JSON' | 'PDF'): string {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1';
+  const baseUrl = getApiBaseUrl();
   return `${baseUrl}/decision/reports/export?decision_id=${encodeURIComponent(decisionId)}&export_format=${format}`;
 }

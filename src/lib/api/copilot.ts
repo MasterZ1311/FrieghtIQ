@@ -1,4 +1,4 @@
-import { apiClient } from './client';
+import { apiClient, getApiBaseUrl } from './client';
 
 export type CopilotRole = 'user' | 'assistant' | 'system';
 export type CopilotPlanStatus = 'PLANNED' | 'EXECUTING' | 'COMPLETED' | 'PARTIAL' | 'FAILED';
@@ -175,9 +175,9 @@ export const copilotApi = {
     onError: (err: any) => void,
     onDone: () => void
   ) => {
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1';
+    const baseUrl = getApiBaseUrl();
     try {
-      const response = await fetch(`${API_BASE_URL}/copilot/chat`, {
+      const response = await fetch(`${baseUrl}/copilot/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
