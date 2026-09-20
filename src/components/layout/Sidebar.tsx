@@ -158,8 +158,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 flex flex-col bg-card border-r border-border transition-all duration-200 ${
-          mobileOpen ? "translate-x-0 w-64" : "-translate-x-full lg:translate-x-0"
+        className={`fixed top-0 bottom-0 left-0 flex flex-col bg-card border-r border-border transition-all duration-200 ${
+          mobileOpen
+            ? "translate-x-0 w-64 z-50 visible pointer-events-auto shadow-2xl"
+            : "-translate-x-full w-64 lg:translate-x-0 z-40 invisible pointer-events-none lg:visible lg:pointer-events-auto"
         } ${collapsed ? "lg:w-16" : "lg:w-64"}`}
       >
         {/* Sidebar Header */}
@@ -171,12 +173,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Close for mobile, collapse toggle for desktop */}
           <Button
             variant="ghost"
-            size="icon-xs"
+            size="icon-sm"
             onClick={onMobileClose}
-            className="lg:hidden text-muted-foreground hover:text-foreground"
+            className="lg:hidden text-muted-foreground hover:text-foreground h-9 w-9 flex items-center justify-center rounded-lg"
             aria-label="Close sidebar"
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
           </Button>
 
           <Button
@@ -216,17 +218,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <Link
                       href={item.href}
                       onClick={onMobileClose}
-                      className={`group relative flex items-center gap-3 px-2.5 py-2 rounded-lg text-xs font-medium transition-all ${
+                      className={`group relative flex items-center gap-3 px-2.5 py-2.5 rounded-lg text-xs font-medium transition-all ${
                         active
-                          ? "bg-primary/15 text-primary font-semibold border-l-2 border-primary"
-                          : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                          ? "bg-primary/15 text-foreground dark:text-white font-semibold border-l-2 border-primary"
+                          : "text-muted-foreground hover:text-foreground dark:hover:text-white hover:bg-muted/60"
                       }`}
                     >
                       <Icon
                         className={`h-4 w-4 shrink-0 transition-colors ${
                           active
                             ? "text-primary"
-                            : "text-muted-foreground group-hover:text-foreground"
+                            : "text-muted-foreground group-hover:text-foreground dark:group-hover:text-white"
                         }`}
                       />
 

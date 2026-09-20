@@ -681,10 +681,10 @@ function WaitVsFixContent() {
                   })}
                   {/* Weighted Expected Row */}
                   <tr className="bg-slate-950/90 font-bold border-t border-slate-700">
-                    <td className="py-3 px-3 text-blue-400">EXPECTED (WEIGHTED)</td>
-                    <td className="py-3 px-3 text-blue-400">${analysis?.expected_wait_rate.toFixed(2)}/MT</td>
+                    <td className="py-3 px-3 text-foreground dark:text-white">EXPECTED (WEIGHTED)</td>
+                    <td className="py-3 px-3 text-foreground dark:text-white">${analysis?.expected_wait_rate.toFixed(2)}/MT</td>
                     <td className="py-3 px-3 text-slate-400">100%</td>
-                    <td className="py-3 px-3 text-blue-400">${analysis?.expected_wait_cost.toLocaleString()}</td>
+                    <td className="py-3 px-3 text-foreground dark:text-white">${analysis?.expected_wait_cost.toLocaleString()}</td>
                     <td className={`py-3 px-3 text-right ${
                       (analysis?.expected_modeled_difference || 0) > 0 ? "text-emerald-400" : "text-rose-400"
                     }`}>
@@ -981,7 +981,7 @@ function WaitVsFixContent() {
               </h4>
               <div className="space-y-3 text-xs text-slate-300">
                 <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-[11px] space-y-1">
-                  <div className="text-blue-400 font-bold">1. Scenario Expected Rate</div>
+                  <div className="text-foreground dark:text-white font-bold">1. Scenario Expected Rate</div>
                   <div>E[Rate] = (0.30 &times; P10) + (0.40 &times; P50) + (0.30 &times; P90)</div>
                   <div className="text-slate-500 italic">Extended Swanson-Megill 3-point approximation</div>
                 </div>

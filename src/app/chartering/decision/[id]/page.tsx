@@ -154,7 +154,7 @@ export default function DecisionWorkspacePage() {
               Cargo Requisitions
             </Link>
             <ChevronRight className="h-3 w-3" />
-            <span className="text-primary font-mono">{context.cargo?.requirement_code || id}</span>
+            <span className="text-foreground dark:text-white font-mono font-semibold">{context.cargo?.requirement_code || id}</span>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
@@ -319,7 +319,7 @@ export default function DecisionWorkspacePage() {
               </div>
               <div className="flex justify-between py-0.5 border-b border-border/60">
                 <span className="text-muted-foreground">Quantity:</span>
-                <span className="font-semibold text-primary font-mono">{Number(context.cargo?.quantity_mt || 75000).toLocaleString()} MT</span>
+                <span className="font-semibold text-foreground dark:text-white font-mono">{Number(context.cargo?.quantity_mt || 75000).toLocaleString()} MT</span>
               </div>
               <div className="flex justify-between py-0.5">
                 <span className="text-muted-foreground">Laycan Window:</span>
@@ -341,7 +341,7 @@ export default function DecisionWorkspacePage() {
               <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
                 <Ship className="h-3.5 w-3.5 text-primary" /> 2. Matched Vessel
               </span>
-              <Badge variant="secondary" className="font-mono text-[10px] text-primary">
+              <Badge variant="secondary" className="font-mono text-[10px] text-foreground dark:text-white">
                 {context.vessel?.data_status || "AVAILABLE"}
               </Badge>
             </div>
@@ -426,7 +426,7 @@ export default function DecisionWorkspacePage() {
             <div className="space-y-1.5 text-xs">
               <div className="flex justify-between py-0.5 border-b border-border/60">
                 <span className="text-muted-foreground">Target Laycan Rate:</span>
-                <span className="font-bold text-primary font-mono text-sm">
+                <span className="font-bold text-foreground dark:text-white font-mono text-sm">
                   ${Number(context.forecast?.p50 || 23.36).toFixed(2)} / MT (P50)
                 </span>
               </div>
@@ -476,7 +476,7 @@ export default function DecisionWorkspacePage() {
                 </div>
                 <div className="p-1 bg-muted/40 rounded border border-border">
                   <div className="text-muted-foreground">BASE</div>
-                  <div className="text-primary font-bold">{(((context.regime?.probabilities?.BASE ?? 0.0)) * 100).toFixed(0)}%</div>
+                  <div className="text-foreground dark:text-white font-bold">{(((context.regime?.probabilities?.BASE ?? 0.0)) * 100).toFixed(0)}%</div>
                 </div>
                 <div className="p-1 bg-muted/40 rounded border border-border">
                   <div className="text-muted-foreground">BULL</div>
@@ -538,7 +538,7 @@ export default function DecisionWorkspacePage() {
             <div className="space-y-1.5 text-xs">
               <div className="flex justify-between py-0.5 border-b border-border/60">
                 <span className="text-muted-foreground">Recommended:</span>
-                <span className="font-bold text-primary">{(context.contract?.recommended_strategy || "MEDIUM_TERM_MULTIPLE_VOYAGE").replace(/_/g, " ")}</span>
+                <span className="font-bold text-foreground dark:text-white">{(context.contract?.recommended_strategy || "MEDIUM_TERM_MULTIPLE_VOYAGE").replace(/_/g, " ")}</span>
               </div>
               <div className="flex justify-between py-0.5 border-b border-border/60">
                 <span className="text-muted-foreground">Est. Outlay:</span>

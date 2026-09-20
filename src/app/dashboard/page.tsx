@@ -227,7 +227,7 @@ export default function DashboardPage() {
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-4 border-b border-border">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-1.5">
-              <Badge variant="outline" className="bg-primary/15 text-primary border-primary/30 uppercase tracking-wider font-bold text-[10px]">
+              <Badge variant="outline" className="bg-primary/15 text-foreground dark:text-white border-primary/30 uppercase tracking-wider font-bold text-[10px]">
                 Active Chartering Decision #1
               </Badge>
               <Badge variant="outline" className="bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/30 font-bold text-[10px]">
@@ -240,7 +240,7 @@ export default function DashboardPage() {
             <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
               <span>75,000 MT COKING COAL</span>
               <span className="text-muted-foreground font-normal">•</span>
-              <span className="text-primary">Port of Newcastle (AUNCL) &rarr; Paradip Port (INPRT)</span>
+              <span className="text-foreground dark:text-white font-bold">Port of Newcastle (AUNCL) &rarr; Paradip Port (INPRT)</span>
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5">
               Candidate Vessel: <strong>{primaryDec?.vessel?.name || "MV Steel Glory"}</strong> ({primaryDec?.vessel?.vessel_class || "PANAMAX"}) • Match Score: <strong>{primaryDec?.vessel?.match_score || 94.5}%</strong> • Berth Feasibility: <strong>PASS</strong>
@@ -260,21 +260,21 @@ export default function DashboardPage() {
               ) : (
                 <Play className="h-3.5 w-3.5 text-primary" />
               )}
-              <span>{analyzing ? "Analyzing..." : "Re-Run Pipeline"}</span>
+              <span>{analyzing ? "Simulating..." : "Re-Run Optimization"}</span>
             </Button>
 
-            <Link href={`/copilot?decision_id=${decisionId}`}>
+            <Link href="/ai/copilot">
               <Button
                 variant="outline"
                 size="sm"
-                className="gap-1.5 text-xs font-semibold border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
+                className="gap-1.5 text-xs font-semibold border-primary/40 bg-primary/10 text-foreground dark:text-white hover:bg-primary/20"
               >
                 <Bot className="h-3.5 w-3.5 text-primary" />
                 <span>Ask Copilot</span>
               </Button>
             </Link>
 
-            <Link href={`/chartering/decision/${decisionId}`}>
+            <Link href="/chartering/decision/req-sail-2026-001">
               <Button
                 size="sm"
                 className="gap-1.5 text-xs font-bold shadow-md shadow-primary/20"
@@ -290,7 +290,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mt-4">
           <Card className="p-3 bg-muted/40 border-border">
             <div className="text-[10px] text-muted-foreground uppercase font-semibold truncate">Freight Forecast</div>
-            <div className="text-sm font-bold text-primary font-mono mt-0.5 truncate">
+            <div className="text-sm font-bold text-foreground dark:text-white font-mono mt-0.5 truncate">
               ${primaryDec?.forecast.p50.toFixed(2) || "15.20"} <span className="text-[10px] text-muted-foreground">/ MT</span>
             </div>
             <div className="text-[10px] text-muted-foreground truncate">P10: ${primaryDec?.forecast.p10.toFixed(2) || "13.80"} • P90: ${primaryDec?.forecast.p90.toFixed(2) || "17.10"}</div>
@@ -307,7 +307,7 @@ export default function DashboardPage() {
           <Card className="p-3 bg-muted/40 border-border">
             <div className="text-[10px] text-muted-foreground uppercase font-semibold truncate">Wait / Fix Option</div>
             <div className={`text-sm font-bold mt-0.5 truncate ${
-              primaryDec?.wait_fix.decision === "FIX_NOW" ? "text-primary" : "text-emerald-500 dark:text-emerald-400"
+              primaryDec?.wait_fix.decision === "FIX_NOW" ? "text-foreground dark:text-white font-bold" : "text-emerald-500 dark:text-emerald-400"
             }`}>
               {primaryDec?.wait_fix.decision || "WAIT_AND_MONITOR"}
             </div>
@@ -323,7 +323,7 @@ export default function DashboardPage() {
 
           <Card className="p-3 bg-muted/40 border-border">
             <div className="text-[10px] text-muted-foreground uppercase font-semibold truncate">Contract Mode</div>
-            <div className="text-sm font-bold text-primary mt-0.5 truncate" title={primaryDec?.contract.recommended_strategy || "SPOT"}>
+            <div className="text-sm font-bold text-foreground dark:text-white mt-0.5 truncate" title={primaryDec?.contract.recommended_strategy || "SPOT"}>
               {primaryDec?.contract.recommended_strategy ? primaryDec.contract.recommended_strategy.replace(/_/g, " ") : "SPOT VOYAGE"}
             </div>
             <div className="text-[10px] text-muted-foreground truncate">Min risk-adjusted outlay</div>
@@ -360,7 +360,7 @@ export default function DashboardPage() {
                   <TrendingUp className="h-4 w-4 text-primary" />
                   <span>Market Intelligence</span>
                 </CardTitle>
-                <Link href="/intelligence/freight" className="text-xs text-primary hover:text-primary/80 flex items-center gap-1 font-medium">
+                <Link href="/intelligence/freight" className="text-xs text-foreground dark:text-white hover:text-primary flex items-center gap-1 font-medium">
                   <span>Curve</span>
                   <ArrowUpRight className="h-3 w-3" />
                 </Link>
@@ -373,7 +373,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex justify-between py-1 border-b border-border/60">
                 <span className="text-muted-foreground">P50 Freight Forecast:</span>
-                <span className="font-mono text-primary font-bold">
+                <span className="font-mono text-foreground dark:text-white font-bold">
                   ${summary?.market_overview.p50_rate.toFixed(2) || "15.20"}/MT
                 </span>
               </div>
@@ -504,7 +504,7 @@ export default function DashboardPage() {
             headerAction={
               <Link
                 href="/intelligence/vessels"
-                className="text-xs text-primary hover:text-primary/80 font-medium inline-flex items-center gap-1"
+                className="text-xs text-foreground dark:text-white hover:text-primary font-medium inline-flex items-center gap-1"
               >
                 <span>Full Register</span>
                 <ArrowUpRight className="h-3 w-3" />
@@ -528,7 +528,7 @@ export default function DashboardPage() {
               </div>
               <Link
                 href="/intelligence/ports"
-                className="text-xs text-primary hover:text-primary/80 font-medium inline-flex items-center gap-1"
+                className="text-xs text-foreground dark:text-white hover:text-primary font-medium inline-flex items-center gap-1"
               >
                 <span>Specs</span>
                 <ArrowUpRight className="h-3 w-3" />

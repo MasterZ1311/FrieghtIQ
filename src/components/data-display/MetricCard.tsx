@@ -55,7 +55,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
           <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate font-mono">
             {title}
           </span>
-          <Badge variant="outline" className="text-[10px] font-mono py-0 px-1.5 h-4 text-primary border-primary/30 bg-primary/5">
+          <Badge variant="outline" className="text-[10px] font-mono py-0 px-1.5 h-4 text-foreground dark:text-white border-primary/30 bg-primary/5">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse mr-1" />
             {badgeLabel}
           </Badge>

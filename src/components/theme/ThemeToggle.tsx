@@ -28,7 +28,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       type="button"
       onClick={toggleTheme}
       className={`relative group p-2 rounded-lg border border-border bg-surface hover:bg-surface-hover transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40 ${className}`}
-      title={isDark ? "Switch to Light Theme (White & Light Ash with Blue text)" : "Switch to Dark Theme (Black & Grey with Blue text)"}
+      title={isDark ? "Switch to Light Theme (Pure White & Light Ash)" : "Switch to Dark Theme (Pure Black & Crisp White text)"}
       aria-label="Toggle Color Theme"
     >
       <div className="relative w-5 h-5 flex items-center justify-center">
